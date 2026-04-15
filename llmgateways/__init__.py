@@ -83,5 +83,6 @@ def wrap(client: Any, *, api_key: str, base_url: str = "", timeout: float = 10.0
 
     raise TypeError(
         f"Unsupported client type: {client_type}. "
-        "Pass an openai.OpenAI or anthropic.Anthropic instance."
+        "Pass an openai.OpenAI (or any OpenAI-compatible client) "
+        "or an anthropic.Anthropic instance."
     )

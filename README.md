@@ -15,6 +15,22 @@ pip install "llmgateways[anthropic]"  # + Anthropic
 pip install "llmgateways[all]"     # + both
 ```
 
+## Supported providers
+
+The SDK works with **any provider that uses the OpenAI or Anthropic SDK interface**:
+
+| Provider | Via |
+|----------|-----|
+| OpenAI (GPT-4o, o1, …) | OpenAI SDK |
+| Azure OpenAI | OpenAI SDK + `base_url` |
+| Groq (Llama, Mixtral, …) | OpenAI SDK + `base_url` |
+| Mistral | OpenAI SDK + `base_url` |
+| Together AI | OpenAI SDK + `base_url` |
+| DeepSeek | OpenAI SDK + `base_url` |
+| Cohere | OpenAI SDK + `base_url` |
+| Anthropic (Claude) | Anthropic SDK |
+| Any OpenAI-compatible API | OpenAI SDK + `base_url` |
+
 ## Quick start
 
 ### OpenAI
@@ -54,6 +70,23 @@ try:
     print(response.content[0].text)
 except PromptBlockedError as e:
     print(f"Blocked! Threats: {e.result.threats}")
+```
+
+### Any OpenAI-compatible provider (Groq, Mistral, Azure, DeepSeek, …)
+
+```python
+from openai import OpenAI
+from llmgateways import wrap, PromptBlockedError
+
+# Groq example — just pass a custom base_url to the OpenAI client
+client = wrap(
+    OpenAI(api_key="gsk_...", base_url="https://api.groq.com/openai/v1"),
+    api_key="lgk_...",
+)
+response = client.chat.completions.create(
+    model="llama-3.3-70b-versatile",
+    messages=[{"role": "user", "content": "Hello!"}],
+)
 ```
 
 ### Async
